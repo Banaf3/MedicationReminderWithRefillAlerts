@@ -426,8 +426,7 @@ void deleteMedication(int medicationId) {
 }
 
 void updateMedication(int medicationId) {
-
-    // Implements update of a medication in the linked list through the function 
+    // Implements update of a medication in the linked list through the function
     MedicationNode* current = medicationList;
     
     while (current != NULL) {
@@ -436,10 +435,24 @@ void updateMedication(int medicationId) {
             displayMedication(current->med);
             
             printf("\nEnter new details:\n");
-            current->med = createMedication();
-            current->med.medicationId = medicationId;
             
-            printf("Medication updated successfully!\n");
+            // Store the original ID temporarily
+            int originalId = current->med.medicationId;
+            
+            // Get new medication information
+            Medication updatedMed = createMedication();
+            
+            // Check if the new ID is either the same as original or is unique
+            if (updatedMed.medicationId == originalId || !isDuplicateId(updatedMed.medicationId)) {
+                // If valid, update the entire medication
+                current->med = updatedMed;
+                printf("Medication updated successfully!\n");
+            } else {
+                // If duplicate ID (not the original), show error
+                printf("Update failed: The new ID %d is already in use by another medication.\n", 
+                       updatedMed.medicationId);
+            }
+            
             return;
         }
         current = current->next;
