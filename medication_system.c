@@ -7,7 +7,7 @@
 typedef struct {
     int refillsRemaining;
     char nextRefillDate[12];
-} RefillInfo;
+} RefillInfo; // Structure to hold refill information
 
 typedef struct {
     int medicationId;
@@ -16,31 +16,32 @@ typedef struct {
     int quantity;
     float price;
     RefillInfo refill; // Nested structure (1)
-} Medication;
+} Medication; // Structure to hold medication information
 
+// (HAMZAH)'s Linked List Node Structure
 typedef struct MedicationNode {
     Medication med; // Nested structure (2) 
     struct MedicationNode* next;
-} MedicationNode;
+} MedicationNode; // Linked list node structure to hold medication data
 
-#define STACK_SIZE 20 // 
+#define STACK_SIZE 20 // (BA NAFEA) Stack size for medication history
 typedef struct {
     Medication items[STACK_SIZE]; // Array of Medication structures (Nested structure 3)
     int top;
-} MedicationStack;
+} MedicationStack; // Stack structure to hold medication history
 
-#define QUEUE_SIZE 20
+#define QUEUE_SIZE 20 // (BIN ISMAIL) Queue size for refill alerts
 typedef struct {
     Medication items[QUEUE_SIZE]; // Array of Medication structures (Nested structure 4) 
     int front;
     int rear;
     int count;
-} RefillQueue;
+} RefillQueue; // Queue structure to hold refill alerts
 
 // ===== GLOBAL VARIABLES =====
-MedicationNode* medicationList = NULL;
-MedicationStack medicationHistory;
-RefillQueue refillAlerts;
+MedicationNode* medicationList = NULL; // Head of the linked list (HAMZAH)
+MedicationStack medicationHistory; // Stack to hold medication history (BA NAFEA)
+RefillQueue refillAlerts; // Queue to hold refill alerts (BIN ISMAIL)
 
 // ===== FUNCTION DECLARATIONS =====
 void initializeSystem();
@@ -49,26 +50,29 @@ int getMenuChoice();
 Medication createMedication();
 void displayMedication(Medication med);         // Here, a Medication structure is passed by value to the function (Passing 1)
 
-// Linked List Functions
+// Linked List Functions (HAMZAH)
+// These functions handle medication management using a linked list structure
 void insertMedication(Medication med);        // Here, a Medication structure is passed by value be inserted in the linked list (Passing 2)
 void deleteMedication(int medicationId);
 void updateMedication(int medicationId);
 void displayMedicationList();
 
-// Stack Functions
+// Stack Functions (BA NAFEA)
+// These functions handle medication history using a stack structure
 void pushMedication(Medication med);        // Here, a Medication structure is passed to be added to the stack (Passing 3)
-Medication popMedication();
+Medication popMedication(); 
 void displayMedicationHistory();
 int isStackEmpty();
 
-// Queue Functions
+// Queue Functions (BIN ISMAIL)
+// These functions handle refill alerts using a queue structure
 void enqueueMedication(Medication med);     // Here, a Medication structure is passed to be added to the queue (Passing 4)
 Medication dequeueMedication();
 void displayRefillAlerts();
 int isQueueEmpty();
 int isQueueFull();
 
-// Search and Sort Functions
+// Search and Sort Functions (RAYAN)
 void searchMedication();
 void linearSearch(char* searchName);
 void sortMedications();
@@ -76,12 +80,12 @@ void bubbleSort(Medication arr[], int n, int sortBy);       // Here, an array of
 void selectionSort(Medication arr[], int n, int sortBy);    // Here, an array of Medication structures is passed to be sorted (Passing 6)
 void displaySortedMedications(Medication arr[], int n);     // Here, an array of Medication structures is passed to be displayed (Passing 7)
 
-int getMedicationCount();
-void populateSampleData();
+int getMedicationCount(); // (HAMZAH) Returns the count of medications in the linked list
+void populateSampleData(); 
 
-// Post-Testing Functions
-void cleanupSystem();
-int isDuplicateId(int medicationId);
+// Post-Testing Functions (HAMZAH)
+void cleanupSystem(); // Function to free allocated memory at program termination
+int isDuplicateId(int medicationId); //  Function to check if a medication ID already exists in the linked list
 
 // ===== MAIN FUNCTION =====
 int main() {
@@ -315,13 +319,13 @@ Medication createMedication() {
         }
     
 
-    //Check if ID already exists
-    if (isDuplicateId(med.medicationId)) {
-        printf("Medication ID %d already exists! Please enter a unique ID.\n", med.medicationId);
-    } else {
-        validID = 1; // Set flag to true if ID is valid and unique
+        //Check if ID already exists
+        if (isDuplicateId(med.medicationId)) {
+            printf("Medication ID %d already exists! Please enter a unique ID.\n", med.medicationId);
+        } else {
+            validID = 1; // Set flag to true if ID is valid and unique
+        }
     }
-}
 
     // Proceed to collect other medication details if ID is valid
     printf("Medication Name (e.g., Aspirin, Paracetamol): ");
